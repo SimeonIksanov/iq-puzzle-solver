@@ -22,7 +22,19 @@ public abstract class Piece
 
     public void Mirror()
     {
-        throw new NotImplementedException();
+        if (IsSymmetric) throw new MirroringSymmetricException();
+        
+        int width = _figure.GetLength(0), height = _figure.GetLength(1);
+        for (int y = 0; y < height; y++)
+        {
+            int l = 0, r = width - 1;
+            while (l < r)
+            {
+                (_figure[l, y], _figure[r, y]) = (_figure[r, y], _figure[l, y]);
+                l++;
+                r--;
+            }
+        }
     }
 
     private void Transpose()
