@@ -74,9 +74,9 @@ public class RotationTests
         yield return [new Piece11(), 3, new byte[,] { { 1, 0 }, { 1, 1 } }];
         yield return [new Piece11(), 4, new byte[,] { { 1, 1 }, { 1, 0 } }];
 
-        yield return [new Piece12(), 1, new byte[,] { { 0, 1 }, { 1, 0 }, { 0, 1 }, { 1, 0 }, { 0, 1 } }];
-        yield return [new Piece12(), 2, new byte[,] { { 0, 1, 0, 1, 0 }, { 1, 0, 1, 0, 1 } }];
-        yield return [new Piece12(), 3, new byte[,] { { 1, 0 }, { 0, 1 }, { 1, 0 }, { 0, 1 }, { 1, 0 } }];
-        yield return [new Piece12(), 4, new byte[,] { { 1, 0, 1, 0, 1 }, { 0, 1, 0, 1, 0 } }];
+        yield return [new Piece12(), 1, new byte[,] { { 0, 1, 1 }, { 1, 1, 0 }, { 1, 0, 0 } }];
+        yield return [new Piece12(), 2, new byte[,] { { 1, 1, 0 }, { 0, 1, 1 }, { 0, 0, 1 } }];
+        yield return [new Piece12(), 3, new byte[,] { { 0, 0, 1 }, { 0, 1, 1 }, { 1, 1, 0 } }];
+        yield return [new Piece12(), 4, new byte[,] { { 1, 0, 0 }, { 1, 1, 0 }, { 0, 1, 1 } }];
     }
 }
