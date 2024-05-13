@@ -14,6 +14,17 @@ public abstract class Piece
     public bool IsSymmetric { get; init; }
     public byte[,] Figure => _figure;
 
+    public (int x, int y) GetLeftTopCoords()
+    {
+        int x = 0;
+        for (int y = 0; y < _figure.GetLength(1); y++)
+        {
+            if (_figure[x, y] > 0) return (x, y);
+        }
+
+        throw new InvalidFigure();
+    }
+
     public void Rotate()
     {
         Transpose();
@@ -23,7 +34,7 @@ public abstract class Piece
     public void Mirror()
     {
         if (IsSymmetric) throw new MirroringSymmetricException();
-        
+
         int width = _figure.GetLength(0), height = _figure.GetLength(1);
         for (int y = 0; y < height; y++)
         {
@@ -181,7 +192,7 @@ public class Piece09 : Piece
 {
     internal Piece09() : base(new byte[,]
     {
-        { 1, 1, 1 }, 
+        { 1, 1, 1 },
         { 0, 0, 1 }
     })
     {
@@ -217,8 +228,9 @@ public class Piece12 : Piece
 {
     internal Piece12() : base(new byte[,]
     {
-        { 1, 0, 1, 0, 1 },
-        { 0, 1, 0, 1, 0 }
+        { 1, 0, 0 },
+        { 1, 1, 0 },
+        { 0, 1, 1 }
     })
     {
         Color = Color.LightBlue;

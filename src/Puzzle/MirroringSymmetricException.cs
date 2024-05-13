@@ -6,3 +6,11 @@ public class MirroringSymmetricException : Exception
     {
     }
 }
+
+public class InvalidFigure : Exception
+{
+    public InvalidFigure() : base("Invalid figure in Piece.")
+    {
+        
+    }
+}
