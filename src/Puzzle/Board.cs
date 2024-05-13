@@ -4,11 +4,15 @@ namespace Puzzle;
 
 public abstract class Board
 {
-    protected BoardCell[][] _field;
-    
-    // TODO Заменить свойство на индексатор
-    public BoardCell[][] Field => _field;
+    protected readonly BoardCell[][] _field;
 
+    protected Board(BoardCell[][] field)
+    {
+        _field = field;
+    }
+    
+    public BoardCell[] this[int index] => _field[index];
+    public int Length => _field.Length;
     protected bool HasCell(int x, int y)
     {
         if (x < 0 || y < 0) return false;
@@ -39,11 +43,11 @@ public abstract class Board
         // координаты левого верхнего угла прямоугольника доски, куда проецируется матрица piece.Figure
         (int x, int y) boardCoords = (firstEmptyCellCoords.x, firstEmptyCellCoords.y - leftTopCoords.y);
         // проверяю что все ячейки доски для piece существуют и свободны, иначе выход
-        for (int x = 0; x < piece.Figure.GetLength(0); x++)
+        for (int x = 0; x < piece.GetLength(0); x++)
         {
-            for (int y = 0; y < piece.Figure.GetLength(1); y++)
+            for (int y = 0; y < piece.GetLength(1); y++)
             {
-                bool isPartOfPiece = piece.Figure[x, y] > 0;
+                bool isPartOfPiece = piece[x, y] > 0;
                 bool hasBoardCell = HasCell(boardCoords.x + x, boardCoords.y + y);
                 bool isBoardCellEmpty = hasBoardCell && _field[boardCoords.x + x][boardCoords.y + y].Piece is null;
                 if ( isPartOfPiece && !isBoardCellEmpty) return false;
@@ -51,11 +55,11 @@ public abstract class Board
         }
         
         // проверки пройдены, можно маркировать доску
-        for (int x = 0; x < piece.Figure.GetLength(0); x++)
+        for (int x = 0; x < piece.GetLength(0); x++)
         {
-            for (int y = 0; y < piece.Figure.GetLength(1); y++)
+            for (int y = 0; y < piece.GetLength(1); y++)
             {
-                bool isPartOfPiece = piece.Figure[x, y] > 0;
+                bool isPartOfPiece = piece[x, y] > 0;
                 bool hasBoardCell = HasCell(boardCoords.x + x, boardCoords.y + y);
                 bool isBoardCellEmpty = hasBoardCell && _field[boardCoords.x + x][boardCoords.y + y].Piece is null;
                 if (isPartOfPiece && isBoardCellEmpty)

@@ -13,8 +13,9 @@ public abstract class Piece
     public byte MaxRotationCount { get; init; } = 3;
     public bool IsSymmetric { get; init; }
     
-    // TODO Заменить на индексатор
-    public byte[,] Figure => _figure;
+    public byte this[int x, int y] => _figure[x, y];
+
+    public int GetLength(int dimension) => _figure.GetLength(dimension);
 
     public (int x, int y) GetLeftTopCoords()
     {

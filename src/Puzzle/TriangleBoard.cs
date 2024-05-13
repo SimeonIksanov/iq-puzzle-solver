@@ -2,12 +2,11 @@ namespace Puzzle;
 
 public class TriangleBoard : Board
 {
-    public TriangleBoard()
+    public TriangleBoard() : base(CreateNewField())
     {
-        _field = CreateNewField();
     }
     
-    private BoardCell[][] CreateNewField()
+    private static BoardCell[][] CreateNewField()
     {
         return new BoardCell[][]
         {
@@ -24,7 +23,7 @@ public class TriangleBoard : Board
         };
     }
 
-    private BoardCell[] CreateRow(int n)
+    private static BoardCell[] CreateRow(int n)
     {
         return Enumerable.Range(0, n).Select((_) => new BoardCell()).ToArray();
     }

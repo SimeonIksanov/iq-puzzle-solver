@@ -1,5 +1,3 @@
-using System.Linq;
-using System.Collections.Generic;
 using Puzzle;
 
 namespace PuzzleTests;
@@ -25,16 +23,13 @@ public class SolveTests
             }
         }
 
-        for (int x = 0; x < sut.Board.Field.Length; x++)
-        for (int y = 0; y < sut.Board.Field[x].Length; y++)
+        for (int x = 0; x < sut.Board.Length; x++)
+        for (int y = 0; y < sut.Board[x].Length; y++)
             if (x < 6)
-                sut.Board.Field[x][y].Piece = pieces.First();
+                sut.Board[x][y].Piece = pieces.First();
             else
-                sut.Board.Field[x][y].Piece = null;
+                sut.Board[x][y].Piece = null;
         
-        // next is test
-        // sut.Board.Field[6][0].Piece = pieces.First();
-
         // Act
         sut.Solve();
 
@@ -57,11 +52,11 @@ public class SolveTests
 
     private bool IsAllCellsFilled(Board board)
     {
-        for (int x = 0; x < board.Field.Length; x++)
+        for (int x = 0; x < board.Length; x++)
         {
-            for (int y = 0; y < board.Field[x].Length; y++)
+            for (int y = 0; y < board[x].Length; y++)
             {
-                if (!board.Field[x][y].Used) return false;
+                if (!board[x][y].Used) return false;
             }
         }
 
