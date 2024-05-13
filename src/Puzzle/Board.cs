@@ -4,8 +4,10 @@ namespace Puzzle;
 
 public abstract class Board
 {
-    protected Cell[][] _field;
-    public Cell[][] Field => _field;
+    protected BoardCell[][] _field;
+    
+    // TODO Заменить свойство на индексатор
+    public BoardCell[][] Field => _field;
 
     protected bool HasCell(int x, int y)
     {
@@ -32,9 +34,7 @@ public abstract class Board
     public bool TryApplyPiece(Piece piece)
     {
         var firstEmptyCellCoords = FindEmptyCell();
-        /*
-         * совмещаем найденную ячейку доски с левым-верхним(в левом "столбике" матрицы верхний) элементом куска
-         */
+        // совмещаем найденную ячейку доски с левым-верхним(в левом "столбике" матрицы верхний) элементом piece
         var leftTopCoords = piece.GetLeftTopCoords();
         // координаты левого верхнего угла прямоугольника доски, куда проецируется матрица piece.Figure
         (int x, int y) boardCoords = (firstEmptyCellCoords.x, firstEmptyCellCoords.y - leftTopCoords.y);
@@ -66,6 +66,7 @@ public abstract class Board
         }
         // TODO можно по другому сделать: проверять доступность и сразу маркировать,
         // а если вдруг обнаружится что piece не подходит -> удалить все маркировки
+        // чтобы удалить повтор цикла
 
         return true;
     }
@@ -76,7 +77,7 @@ public abstract class Board
         for (int x = 0; x < _field.Length; x++)
         {
             // char Selector(Cell c) => c.Used ? '*' : ' ';
-            char Selector(Cell c) => c.Used ? '*' : ' ';
+            char Selector(BoardCell c) => c.Used ? '*' : ' ';
 
             sb.AppendLine(string.Join("", _field[x].Select(Selector)));
         }
@@ -99,15 +100,4 @@ public abstract class Board
 
         throw new InvalidOperationException("Failed to find empty cell. Puzzle is solved!");
     }
-}
-
-public class Cell
-{
-    internal Cell()
-    {
-    }
-
-    public bool Used => Piece is not null;
-
-    public Piece? Piece { get; set; }
 }

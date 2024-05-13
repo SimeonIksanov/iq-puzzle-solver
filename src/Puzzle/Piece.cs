@@ -12,6 +12,8 @@ public abstract class Piece
     public Color Color { get; init; }
     public byte MaxRotationCount { get; init; } = 3;
     public bool IsSymmetric { get; init; }
+    
+    // TODO Заменить на индексатор
     public byte[,] Figure => _figure;
 
     public (int x, int y) GetLeftTopCoords()

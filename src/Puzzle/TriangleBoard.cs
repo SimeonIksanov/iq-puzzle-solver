@@ -7,9 +7,9 @@ public class TriangleBoard : Board
         _field = CreateNewField();
     }
     
-    private Cell[][] CreateNewField()
+    private BoardCell[][] CreateNewField()
     {
-        return new Cell[][]
+        return new BoardCell[][]
         {
             CreateRow(10),
             CreateRow(9),
@@ -24,9 +24,9 @@ public class TriangleBoard : Board
         };
     }
 
-    private Cell[] CreateRow(int n)
+    private BoardCell[] CreateRow(int n)
     {
-        return Enumerable.Range(0, n).Select((_) => new Cell()).ToArray();
+        return Enumerable.Range(0, n).Select((_) => new BoardCell()).ToArray();
     }
 
     /*
