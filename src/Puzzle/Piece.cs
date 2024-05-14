@@ -240,6 +240,14 @@ public class Piece12 : Piece
     }
 }
 
+public class DummyPiece : Piece
+{
+    public DummyPiece():base(new byte[0,0])
+    {
+        Color = Color.Grey;
+    }
+}
+
 /*
 piece01    piece02    piece03    piece04   piece05
    #        # # #      # #        # #

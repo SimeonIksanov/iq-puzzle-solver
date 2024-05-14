@@ -9,6 +9,7 @@ public class SolveTests
     {
         // Arrange
         var sut = new PuzzleGame();
+        var dummyPiece = new DummyPiece();
         string[] usedPieces = new[]
         {
             "Piece01", "Piece02", "Piece04", "Piece05", "Piece06", "Piece07", "Piece09", "Piece10", "Piece11",
@@ -16,17 +17,15 @@ public class SolveTests
         };
         var pieces = sut.AllPieces;
         foreach (var piece in pieces)
-        {
             if (usedPieces.Contains(piece.GetType().Name))
             {
                 sut.SetPieceAsUsed(piece);
             }
-        }
 
         for (int x = 0; x < sut.Board.Length; x++)
         for (int y = 0; y < sut.Board[x].Length; y++)
             if (x < 6)
-                sut.Board[x][y].Piece = pieces.First();
+                sut.Board[x][y].Piece = dummyPiece;
             else
                 sut.Board[x][y].Piece = null;
         
