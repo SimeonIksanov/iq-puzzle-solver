@@ -4,15 +4,15 @@ namespace ConsoleApp;
 
 class Program
 {
-    static void Main(string[] args)
+    static void Main()
     {
         PrintWelcomeMessage();
 
         var puzzleGame = new PuzzleGame();
-        
+
         string[] usedPieces = ReadUsedPieces();
         byte[][] userEnteredBoard = ReadInitialBoard();
-        
+
         SetUsedPieces(puzzleGame, usedPieces);
         SetUsedBoardCells(puzzleGame, userEnteredBoard);
         var solved = puzzleGame.Solve();
@@ -40,7 +40,7 @@ class Program
             while (x < 10 && y < puzzleGame.Board[x].Length)
             {
                 if (puzzleGame.Board[x][y].Used)
-                    PrintPuzzlePiece(puzzleGame.Board[x][y].Piece);
+                    PrintPuzzlePiece(puzzleGame.Board[x][y].Piece!);
                 else Console.Write(" ");
                 Console.Write(" ");
                 x++;
@@ -55,10 +55,7 @@ class Program
         var dummyPiece = new DummyPiece();
         for (int x = 0; x < puzzleGame.Board.Length; x++)
         for (int y = 0; y < puzzleGame.Board[x].Length; y++)
-            if (userEnteredBoard[x][y] > 0)
-                puzzleGame.Board[x][y].Piece = dummyPiece;
-            else
-                puzzleGame.Board[x][y].Piece = null;
+            puzzleGame.Board[x][y].Piece = userEnteredBoard[x][y] > 0 ? dummyPiece : null;
     }
 
     private static void SetUsedPieces(PuzzleGame puzzleGame, string[] usedPieces)
@@ -88,7 +85,7 @@ class Program
             error = false;
             PrintPuzzlePieces();
             Console.Write("Номера использованых деталей: ");
-            string line = Console.ReadLine() ?? "";
+            var line = Console.ReadLine();
             if (string.IsNullOrWhiteSpace(line)) return [];
 
             var splitted = line.Split(' ', ';', ',');
@@ -106,7 +103,7 @@ class Program
 
             if (!error) break;
         }
-        
+
         return nums
             .Select(n => $"Piece{n:D2}")
             .ToArray();
@@ -116,41 +113,28 @@ class Program
     {
         Console.WriteLine(
             "Введи начальную конфигурацию(# - для занятой ячейки, любой символ - пустые ячейки;10 строк, начиная с 10 столбиков, заканчивая 1)");
-        var lines = new List<byte[]>(10);
+        var lines = new byte[10][];
         for (int i = 0; i < 10; i++)
         {
             var line = Console.ReadLine();
             if (!string.IsNullOrEmpty(line))
-                lines.Add(line.Select(c => c == '#' ? (byte)1 : (byte)0).ToArray());
+                lines[i] = line.Select(c => c == '#' ? (byte)1 : (byte)0).ToArray();
         }
 
         return TransposeArray(lines);
     }
 
-    private static byte[][] TransposeArray(List<byte[]> matrixIn)
+    private static byte[][] TransposeArray(byte[][] matrix)
     {
-        var matrixOut = new byte[10][]
+        for (int y = 0; y < matrix.Length; y++)
         {
-            new byte[10],
-            new byte[9],
-            new byte[8],
-            new byte[7],
-            new byte[6],
-            new byte[5],
-            new byte[4],
-            new byte[3],
-            new byte[2],
-            new byte[1]
-        };
-        for (int y = 0; y < matrixIn.Count; y++)
-        {
-            for (int x = 0; x < matrixIn[y].Length; x++)
+            for (int x = 0; x < matrix[y].Length; x++)
             {
-                matrixOut[x][y] = matrixIn[y][x];
+                (matrix[x][y], matrix[y][x]) = (matrix[y][x], matrix[x][y]);
             }
         }
 
-        return matrixOut;
+        return matrix;
     }
 
     static void PrintPuzzlePieces()
@@ -183,11 +167,10 @@ class Program
             { Color.White, ConsoleColor.White },
             { Color.Yellow, ConsoleColor.Yellow },
             { Color.Grey, ConsoleColor.Gray }
-            
         };
         Console.ForegroundColor = map[piece.Color];
         Console.Write(piece.Print());
-        
+
         Console.ResetColor();
     }
 }
@@ -200,6 +183,3 @@ public static class PieceExtensions
         return name == "DummyPiece" ? "00" : name.Substring(5);
     }
 }
-/*
-##00
-*/
